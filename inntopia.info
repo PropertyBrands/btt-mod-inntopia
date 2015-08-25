@@ -1,0 +1,6 @@
+name = Inntopia Responsive Commerce Widgets
+description = Provides fields and widgets for integration with the Inntopia-hosted Responsive Commerce sales platform.
+package = Bluetent
+core = 7.x
+version = 7.x-1.0-dev
+

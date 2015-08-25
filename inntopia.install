@@ -1,0 +1,88 @@
+<?php
+/**
+ * @file
+ * Install, update, and uninstall functions for the inntopia module.
+ */
+
+/**
+ * Implements hook_field_schema().
+ *
+ * Defines the database schema of the field, using the format used by the
+ * Schema API.
+ *
+ * The data we will store here is just one 7-character element, even
+ * though the widget presents the three portions separately.
+ *
+ * All implementations of hook_field_schema() must be in the module's
+ * .install file.
+ *
+ * @see http://drupal.org/node/146939
+ * @see schemaapi
+ * @see hook_field_schema()
+ * @ingroup field_example
+ */
+function inntopia_field_schema($field) {
+  $columns['salesid'] = array(
+    'type' => 'int',
+    'not null' => FALSE,
+    'default' => NULL,
+    'unsigned' => TRUE
+  );
+  $columns['supplierid'] = array(
+    'type' => 'int',
+    'not null' => FALSE,
+    'default' => NULL,
+    'unsigned' => TRUE
+  );
+  $columns['packageid'] = array(
+    'type' => 'int',
+    'not null' => FALSE,
+    'default' => NULL,
+    'unsigned' => TRUE
+  );
+  $columns['arrivaldate'] = array(
+    'type' => 'varchar',
+    'length' => 10,
+    'not null' => FALSE,
+    'default' => NULL,
+  );
+  $columns['departuredate'] = array(
+    'type' => 'varchar',
+    'length' => 10,
+    'not null' => FALSE,
+    'default' => NULL,
+  );
+  $columns['productsupercategoryid'] = array(
+    'type' => 'int',
+    'not null' => FALSE,
+    'default' => NULL,
+    'unsigned' => TRUE
+  );
+  $columns['startdate'] = array(
+    'type' => 'varchar',
+    'length' => 10,
+    'not null' => FALSE,
+    'default' => NULL,
+  );
+  $columns['productid'] = array(
+    'type' => 'int',
+    'not null' => FALSE,
+    'default' => NULL,
+    'unsigned' => TRUE
+  );
+  $columns['promocode'] = array(
+    'type' => 'varchar',
+    'length' => 32,
+    'not null' => FALSE,
+    'default' => NULL,
+  );
+  $columns['calltoaction'] = array(
+    'type' => 'varchar',
+    'length' => 128,
+    'not null' => FALSE,
+    'default' => NULL,
+  );
+  return array(
+    'columns' => $columns,
+  );
+}
