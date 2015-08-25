@@ -46,7 +46,7 @@ function _inntopia_widget_form_add_fields(&$element, $settings, $admin = FALSE, 
         )
       ),
       '#description' => t('Inntopia product super-category to search.'),
-      '#default_value' => $settings['$productsupercategoryid'] ? : 1
+      '#default_value' => $settings['productsupercategoryid'] ? : 1
     );
   }
   else {
@@ -115,7 +115,7 @@ function _inntopia_widget_form_add_fields(&$element, $settings, $admin = FALSE, 
     $element['promocode'] = array(
       '#title' => t('Promo Code'),
       '#type' => 'textfield',
-      '#default_value' => $$settings['promocode'] ? : NULL,
+      '#default_value' => $settings['promocode'] ? : NULL,
       '#size' => 12,
       '#maxlength' => 32,
       '#description' => t('Enter an Inntopia Promo Code to target a specific promocode link.')
@@ -133,7 +133,7 @@ function _inntopia_widget_form_add_fields(&$element, $settings, $admin = FALSE, 
     $element['calltoaction'] = array(
       '#title' => t('Call to Action'),
       '#type' => 'textfield',
-      '#default_value' => $$settings['promocode'] ? : NULL,
+      '#default_value' => $settings['calltoaction'] ? : NULL,
       '#size' => 60,
       '#maxlength' => 128,
       '#description' => t('Optional tagline text to draw attention to the widget or link.')
@@ -148,33 +148,37 @@ function _inntopia_widget_form_add_fields(&$element, $settings, $admin = FALSE, 
       '#maxlength' => 32,
       '#attributes' => array(
         'class' => array('inntopia-date'),
-        'readonly' => 'readonly'
       )
     );
+    if(!$admin) {
+      $element['startdate']['#attributes']['readonly'] = 'readonly';
+    }
   }
   if ($admin || $settings['productsupercategoryid'] == 1) {
     $element['arrivaldate'] = array(
       '#title' => t('Arrival'),
       '#type' => 'textfield',
-      '#default_value' => $$settings['arrivaldate'] ? : NULL,
+      '#default_value' => $settings['arrivaldate'] ? : NULL,
       '#size' => 12,
       '#maxlength' => 32,
       '#attributes' => array(
         'class' => array('inntopia-date'),
-        'readonly' => 'readonly'
       )
     );
     $element['departuredate'] = array(
       '#title' => t('Departure'),
       '#type' => 'textfield',
-      '#default_value' => $$settings['departuredate'] ? : NULL,
+      '#default_value' => $settings['departuredate'] ? : NULL,
       '#size' => 12,
       '#maxlength' => 32,
       '#attributes' => array(
         'class' => array('inntopia-date'),
-        'readonly' => 'readonly'
       )
     );
+    if(!$admin) {
+      $element['arrivaldate']['#attributes']['readonly'] = 'readonly';
+      $element['departure']['#attributes']['readonly'] = 'readonly';
+    }
   }
   if (!$admin) {
     $element['adultcount'] = array(
@@ -230,22 +234,22 @@ function inntopia_block_info() {
 function inntopia_block_configure($delta = '') {
   $element = array();
   $settings = variable_get($delta . "_settings", array());
-  $element = _inntopia_widget_form_add_fields($element, $settings, TRUE);
+  $element['settings'] = array(
+    '#tree' => TRUE
+  );
+  _inntopia_widget_form_add_fields($element['settings'], $settings, TRUE);
   return $element;
 }
 
 function inntopia_block_save($delta = '', $edit = array()) {
   // This example comes from node.module.
-  variable_set($delta . "_settings", $edit);
+  variable_set($delta . "_settings", $edit['settings']);
 }
 
 function inntopia_block_view($delta = '') {
   $settings = variable_get($delta . "_settings", array());
   $block = array();
   $block['content'] = drupal_get_form('inntopia_responsive_commerce_form', $settings);
-  if(!empty($settings['calltoaction'])) {
-    $block['title'] = t(check_plain($settings['calltoaction']));
-  }
   return $block;
 }
 
@@ -311,7 +315,7 @@ function inntopia_theme($existing, $type, $theme, $path) {
  */
 function inntopia_responsive_commerce_form($form, &$form_state, $settings) {
   $form['#method'] = 'GET';
-  $form['#attributes']['class'][] = 'inntopia-reponsive-commerce-form';
+  $form['#attributes']['class'][] = 'inntopia-responsive-commerce-form';
   $salesid = $settings['salesid'] ?: variable_get('inntopia_salesid', '');
   switch($settings['productsupercategoryid']) {
     case 12:
@@ -328,8 +332,12 @@ function inntopia_responsive_commerce_form($form, &$form_state, $settings) {
       $form['#action'] = 'https://' . variable_get('inntopia_hostname', 'www.inntopia.travel') . '/ecomm/shop/merchandise/' . $salesid . '/';
       break;
   }
+  if(!empty($settings['calltoaction'])) {
+    $form['cta'] = array(
+      '#markup' => '<strong class="calltoaction">' . t(check_plain(filter_xss($settings['calltoaction']))) . '</strong><br />'
+    );
+  }
   _inntopia_widget_form_add_fields($form, $settings, FALSE, $form);
-  dpm($form);
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Check Availability')
