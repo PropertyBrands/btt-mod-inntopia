@@ -28,5 +28,16 @@
         );
       });
     }
-  }
+  };
+  Drupal.behaviors.inntopiaItinerary = {
+    attach: function(context, settings) {
+      $('.inntopia-itinerary-js', context).once('inntopiaItinerary', function () {
+        if(settings.inntopia && settings.inntopia.salesid  && settings.inntopia.host && $.cookie('sessionId')) {
+          $.getJSON('https://' + settings.inntopia.host + '/Ecomm/widgets/itinerary/json/c0984597-9ffb-40ca-9af8-8a9ba1bff595' + $.cookie('sessionId'), null, function(data) {
+            // Need cross origin policy to continue dev/testing
+          });
+        }
+      });
+    }
+  };
 })(jQuery);

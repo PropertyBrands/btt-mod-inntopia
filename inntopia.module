@@ -219,6 +219,10 @@ function _inntopia_widget_form_add_fields(&$element, $settings, $admin = FALSE, 
  * @return mixed
  */
 function inntopia_block_info() {
+  $blocks["inntopia_itinerary_js"] = array(
+    'info' => t('Inntopia Responsive Commerce Itinerary JS'),
+    // DRUPAL_CACHE_PER_ROLE will be assumed.
+  );
   for($i = 0; $i < variable_get('innotopia_form_blocks', 1); $i++) {
     $blocks["inntopia_form_$i"] = array(
       'info' => t('Inntopia Responsive Commerce Form Widget #@num', array('@num' => $i + 1)),
@@ -233,23 +237,32 @@ function inntopia_block_info() {
  */
 function inntopia_block_configure($delta = '') {
   $element = array();
-  $settings = variable_get($delta . "_settings", array());
-  $element['settings'] = array(
-    '#tree' => TRUE
-  );
-  _inntopia_widget_form_add_fields($element['settings'], $settings, TRUE);
+  if($delta == 'inntopia_itinerary_js') {
+    // no settings ATM
+  } else {
+    $settings = variable_get($delta . "_settings", array());
+    $element['settings'] = array(
+      '#tree' => TRUE
+    );
+    _inntopia_widget_form_add_fields($element['settings'], $settings, TRUE);
+  }
   return $element;
 }
 
 function inntopia_block_save($delta = '', $edit = array()) {
-  // This example comes from node.module.
   variable_set($delta . "_settings", $edit['settings']);
 }
 
 function inntopia_block_view($delta = '') {
-  $settings = variable_get($delta . "_settings", array());
-  $block = array();
-  $block['content'] = drupal_get_form('inntopia_responsive_commerce_form', $settings);
+  if($delta == 'inntopia_itinerary_js') {
+    $block['content'] = array(
+      '#theme' => 'inntopia_responsive_commerce_itinerary_js',
+    );
+  } else {
+    $settings = variable_get($delta . "_settings", array());
+    $block = array();
+    $block['content'] = drupal_get_form('inntopia_responsive_commerce_form', $settings);
+  }
   return $block;
 }
 
@@ -297,11 +310,15 @@ function inntopia_theme($existing, $type, $theme, $path) {
     'file' => 'inntopia.theme.inc',
     'template' => 'inntopia-responsive-commerce-link'
   );
-
   $items['inntopia_responsive_commerce_form'] = array(
     'path' => "$path/theme",
     'file' => 'inntopia.theme.inc',
     'template' => 'inntopia-responsive-commerce-form'
+  );
+  $items['inntopia_responsive_commerce_itinerary_js'] = array(
+    'path' => "$path/theme",
+    'file' => 'inntopia.theme.inc',
+    'template' => 'inntopia-responsive-commerce-itinerary-js'
   );
   return $items;
 }
