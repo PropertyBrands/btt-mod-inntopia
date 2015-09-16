@@ -1,0 +1,44 @@
+/* line 2, ../scss/inntopia.scss */
+.inntopia-widget-settings .form-item {
+  display: inline-block;
+  width: 20%;
+  min-width: 180px;
+}
+
+/* line 9, ../scss/inntopia.scss */
+.inntopia-itinerary-js {
+  text-align: right;
+}
+/* line 11, ../scss/inntopia.scss */
+.inntopia-itinerary-js .line-item {
+  margin-top: .5em;
+}
+/* line 13, ../scss/inntopia.scss */
+.inntopia-itinerary-js .line-item .location, .inntopia-itinerary-js .line-item .price {
+  font-weight: bold;
+}
+/* line 16, ../scss/inntopia.scss */
+.inntopia-itinerary-js .line-item .product, .inntopia-itinerary-js .line-item .dates {
+  display: block;
+  font-size: smaller;
+}
+/* line 22, ../scss/inntopia.scss */
+.inntopia-itinerary-js .taxes, .inntopia-itinerary-js .sub-total, .inntopia-itinerary-js .total {
+  margin: .2em 0;
+  font-size: smaller;
+}
+/* line 25, ../scss/inntopia.scss */
+.inntopia-itinerary-js .taxes .price, .inntopia-itinerary-js .sub-total .price, .inntopia-itinerary-js .total .price {
+  display: inline-block;
+  min-width: 4.5em;
+  margin-left: .3em;
+}
+/* line 31, ../scss/inntopia.scss */
+.inntopia-itinerary-js .actions {
+  margin: .2em 0;
+}
+/* line 33, ../scss/inntopia.scss */
+.inntopia-itinerary-js .actions .checkout {
+  font-size: larger;
+  padding: .3em 0;
+}
