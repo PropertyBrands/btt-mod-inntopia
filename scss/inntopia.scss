@@ -1,0 +1,38 @@
+.inntopia-widget-settings {
+  .form-item {
+    display: inline-block;
+    width: 20%;
+    min-width: 180px;
+  }
+}
+
+.inntopia-itinerary-js {
+  text-align: right;
+  .line-item {
+    margin-top: .5em;
+    .location, .price {
+      font-weight: bold;
+    }
+    .product, .dates {
+      display: block;
+      font-size: smaller;
+    }
+  }
+
+  .taxes, .sub-total, .total {
+    margin: .2em 0;
+    font-size: smaller;
+    .price {
+      display: inline-block;
+      min-width: 4.5em;
+      margin-left: .3em;
+    }
+  }
+  .actions {
+    margin: .2em 0;
+    .checkout {
+      font-size: larger;
+      padding: .3em 0;
+    }
+  }
+}
