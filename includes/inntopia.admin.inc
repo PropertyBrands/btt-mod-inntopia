@@ -14,9 +14,13 @@ function inntopia_admin_general_settings_form($form, &$form_state) {
     '#description' => t('The responsive commerce hostname to be used by default in Inntopia widgets and links throughout the site.'),
     '#default_value' => variable_get('inntopia_hostname', 'www.inntopia.travel')
   );
-
-  variable_get('innotopia_form_blocks', 1);
-
+  $form['inntopia_currency_symbol'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Currency Symbol'),
+    '#size' => 12,
+    '#description' => t('Applies to price display in sub-domain enabled Inntopia implementations.'),
+    '#default_value' => variable_get('inntopia_currency_symbol', '$')
+  );
   $form['innotopia_form_blocks'] = array(
     '#type' => 'select',
     '#title' => t('How many Inntopia widget blocks?'),
@@ -32,5 +36,15 @@ function inntopia_admin_general_settings_form($form, &$form_state) {
     '#description' => t('The instructions to go with the number of children (eg. "18 and under").'),
     '#default_value' => variable_get('inntopia_child_note', 'Age 18 and under')
   );
+
+//  $form['inntopia_destinations'] = array(
+//    '#type' => 'select',
+//    '#title' => t('Destinations'),
+//    '#multiple' => TRUE,
+//    '#options' => _inntopia_get_destination_options(),
+//    '#size' => 16,
+//    '#description' => t('Select one or more destinations here to limit destination search options in global widgets.'),
+//    '#default_value' => variable_get('inntopia_destinations', array())
+//  );
   return system_settings_form($form);
 }

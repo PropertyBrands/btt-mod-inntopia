@@ -33,8 +33,47 @@
     attach: function(context, settings) {
       $('.inntopia-itinerary-js', context).once('inntopiaItinerary', function () {
         if(settings.inntopia && settings.inntopia.salesid  && settings.inntopia.host && $.cookie('sessionId')) {
-          $.getJSON('https://' + settings.inntopia.host + '/Ecomm/widgets/itinerary/json/c0984597-9ffb-40ca-9af8-8a9ba1bff595' + $.cookie('sessionId'), null, function(data) {
-            // Need cross origin policy to continue dev/testing
+          var tgt = this;
+          $.getJSON('https://' + settings.inntopia.host + '/Ecomm/widgets/itinerary/json/' + $.cookie('sessionId'), null, function(data) {
+            if(data && data.length) {
+              var st = 0, tx = 0;
+              $(data).each(function() {
+                st += this.Price;
+                tx += this.TaxesFees;
+                $(tgt).append(
+                  $('<div></div>')
+                    .addClass('line-item')
+                    .append('<span class="location">' + this.LocationName +  '</span>')
+                    .append(' - ')
+                    .append('<span class="price">' + settings.inntopia.csymbol + this.Price.toFixed(2) +  '</span>')
+                    .append('<span class="product">' + this.ProductName +  '</span>')
+                    .append('<span class="dates">' + this.ArrivalDate + ' - ' +this.DepartureDate + '</span>')
+                );
+              });
+              $(tgt).append(
+                $('<div></div>')
+                  .addClass('sub-total')
+                  .append('<span class="label">' + settings.inntopia.txt.st + '</span>')
+                  .append('<span class="price">' + settings.inntopia.csymbol + st.toFixed(2) +  '</span>')
+              );
+              $(tgt).append(
+                $('<div></div>')
+                  .addClass('taxes')
+                  .append('<span class="label">' + settings.inntopia.txt.tax + '</span>')
+                  .append('<span class="price">' + settings.inntopia.csymbol + tx.toFixed(2) +  '</span>')
+              );
+              $(tgt).append(
+                $('<div></div>')
+                  .addClass('total')
+                  .append('<span class="label">' + settings.inntopia.txt.tot + '</span>')
+                  .append('<span class="price">' + settings.inntopia.csymbol + (tx + st).toFixed(2) +  '</span>')
+              );
+              $(tgt).append(
+                $('<div></div>')
+                  .addClass('actions')
+                  .append('<a class="checkout" href="https://book.stayaspensnowmass.com/Ecomm/Checkout/Customer/' + settings.inntopia.salesid + '">' + settings.inntopia.txt.co + '</a>')
+              );
+            }
           });
         }
       });

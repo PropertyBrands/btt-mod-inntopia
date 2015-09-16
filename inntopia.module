@@ -1,6 +1,30 @@
 <?php
 include_once('inntopia.field.inc');
 
+function _inntopia_get_destinations_xml() {
+  $data = cache_get('inntopia_destinations');
+  if(empty($data->data)) {
+    $retval = file_get_contents('http://www.inntopia.com/inntopia/templates/common/destinationlist.xml');
+    cache_set('inntopia_destinations', $retval, 'cache', CACHE_TEMPORARY);
+  } else {
+    $retval = $data->data;
+  }
+  return $retval;
+}
+
+function _inntopia_get_destinations_elem() {
+  return new SimpleXMLElement(_inntopia_get_destinations_xml());
+}
+
+function _inntopia_get_destination_options() {
+  $destopts = array();
+  foreach(_inntopia_get_destinations_elem()->xpath('//Destination') as $d) {
+    $destopts[(int) $d['ID']] = (string) $d['Name'];
+  }
+  asort($destopts);
+  return $destopts;
+}
+
 function _inntopia_widget_form_add_fields(&$element, $settings, $admin = FALSE, &$form = NULL) {
   if ($admin) {
     $element['salesid'] = array(
@@ -93,6 +117,7 @@ function _inntopia_widget_form_add_fields(&$element, $settings, $admin = FALSE, 
       '#value' => $settings['packageid']
     );
   }
+
   if ($admin) {
     $element['productid'] = array(
       '#title' => t('Product ID'),
@@ -195,6 +220,17 @@ function _inntopia_widget_form_add_fields(&$element, $settings, $admin = FALSE, 
       '#default_value' => $settings['shildcount'] ? : 0
     );
   }
+//  if(!$admin && empty($settings['supplierid'])) {
+//    $dests = array_filter(variable_get('inntopia_destinations', array()));
+//    $destopts = array_intersect_key(_inntopia_get_destination_options(), $dests);
+//    if(count($destopts)) {
+//      $element['destinationid'] = array(
+//        '#type' => 'select',
+//        '#title' => t('Destination'),
+//        '#options' => array('' => t('- Choose a Destination -')) + $destopts
+//      );
+//    }
+//  }
   /**
    * en-US English (Date Format mm/dd/yyyy)
    * fr-CA Canadien-French (European Date Format dd/mm/yyyy)
