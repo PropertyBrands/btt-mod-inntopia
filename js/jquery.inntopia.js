@@ -34,7 +34,7 @@
       $('.inntopia-itinerary-js', context).once('inntopiaItinerary', function () {
         if(settings.inntopia && settings.inntopia.salesid  && settings.inntopia.host && $.cookie('sessionId')) {
           var tgt = this;
-          $.getJSON('https://' + settings.inntopia.host + '/Ecomm/widgets/itinerary/json/' + $.cookie('sessionId'), null, function(data) {
+          $.post('https://' + settings.inntopia.host + '/Ecomm/widgets/itinerary/json/' + $.cookie('sessionId'), null, function(data) {
             if(data && data.length) {
               var st = 0, tx = 0;
               $(data).each(function() {
@@ -74,7 +74,7 @@
                   .append('<a class="checkout" href="https://book.stayaspensnowmass.com/Ecomm/Checkout/Customer/' + settings.inntopia.salesid + '">' + settings.inntopia.txt.co + '</a>')
               );
             }
-          });
+          }, 'json');
         }
       });
     }
