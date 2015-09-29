@@ -166,7 +166,7 @@ function _inntopia_widget_form_add_fields(&$element, $settings, $admin = FALSE, 
   }
   if ($admin || $settings['productsupercategoryid'] != 1 || !empty($settings['packageid'])) {
     $element['startdate'] = array(
-      '#title' => t('Date'),
+      '#title' => !empty($settings['packageid']) ? t('Arrival') : t('Date'),
       '#type' => 'textfield',
       '#default_value' => $settings['startdate'] ? : NULL,
       '#size' => 12,
@@ -177,7 +177,7 @@ function _inntopia_widget_form_add_fields(&$element, $settings, $admin = FALSE, 
     );
     if($admin || !empty($settings['packageid'])) {
       $element['enddate'] = array(
-        '#title' => t('End Date'),
+        '#title' => t('Departure'),
         '#type' => 'textfield',
         '#default_value' => $settings['enddate'] ? : NULL,
         '#size' => 12,
