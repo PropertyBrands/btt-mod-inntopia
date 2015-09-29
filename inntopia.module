@@ -164,7 +164,7 @@ function _inntopia_widget_form_add_fields(&$element, $settings, $admin = FALSE, 
       '#description' => t('Optional tagline text to draw attention to the widget or link.')
     );
   }
-  if ($admin || $settings['productsupercategoryid'] != 1) {
+  if ($admin || $settings['productsupercategoryid'] != 1 || !empty($settings['packageid'])) {
     $element['startdate'] = array(
       '#title' => t('Date'),
       '#type' => 'textfield',
@@ -175,11 +175,26 @@ function _inntopia_widget_form_add_fields(&$element, $settings, $admin = FALSE, 
         'class' => array('inntopia-date'),
       )
     );
+    if($admin || !empty($settings['packageid'])) {
+      $element['enddate'] = array(
+        '#title' => t('End Date'),
+        '#type' => 'textfield',
+        '#default_value' => $settings['enddate'] ? : NULL,
+        '#size' => 12,
+        '#maxlength' => 32,
+        '#attributes' => array(
+          'class' => array('inntopia-date'),
+        )
+      );
+    }
     if(!$admin) {
       $element['startdate']['#attributes']['readonly'] = 'readonly';
+      if(!empty($settings['packageid'])) {
+        $element['enddate']['#attributes']['readonly'] = 'readonly';
+      }
     }
   }
-  if ($admin || $settings['productsupercategoryid'] == 1) {
+  if ($admin || ($settings['productsupercategoryid'] == 1 && empty($settings['packageid']))) {
     $element['arrivaldate'] = array(
       '#title' => t('Arrival'),
       '#type' => 'textfield',

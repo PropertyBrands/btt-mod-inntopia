@@ -3,7 +3,7 @@
     attach: function(context, settings) {
       $('.inntopia-responsive-commerce-form', context).once('inntopiaWidget', function () {
         var widget = this;
-        $('.inntopia-date[name=arrivaldate], .inntopia-date[name=departuredate], .inntopia-date[name=startdate]', this).datepicker({
+        $('.inntopia-date[name=arrivaldate], .inntopia-date[name=departuredate], .inntopia-date[name=startdate], .inntopia-date[name=enddate]', this).datepicker({
           dateFormat: 'mm/dd/yy',
           numberOfMonths: 1,
           stepMonths: 1,
@@ -19,6 +19,17 @@
             if($('.inntopia-date[name=arrivaldate]', widget).val()) {
               return {
                 minDate: $('.inntopia-date[name=arrivaldate]', widget).datepicker("getDate"),
+                disabled: false
+              };
+            } else {
+              return {disabled: true};
+            }
+          }
+        );
+        $('.inntopia-date[name=enddate]', widget).datepicker('option', 'beforeShow', function(input, inst) {
+            if($('.inntopia-date[name=startdate]', widget).val()) {
+              return {
+                minDate: $('.inntopia-date[name=startdate]', widget).datepicker("getDate"),
                 disabled: false
               };
             } else {
