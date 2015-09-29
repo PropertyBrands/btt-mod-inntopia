@@ -71,7 +71,7 @@
               $(tgt).append(
                 $('<div></div>')
                   .addClass('actions')
-                  .append('<a class="checkout" href="https://book.stayaspensnowmass.com/Ecomm/Checkout/Customer/' + settings.inntopia.salesid + '">' + settings.inntopia.txt.co + '</a>')
+                  .append('<a class="checkout" href="https://' + settings.inntopia.host + '/Ecomm/Checkout/Customer/' + settings.inntopia.salesid + '">' + settings.inntopia.txt.co + '</a>')
               );
             }
           }, 'json');
