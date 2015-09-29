@@ -386,7 +386,7 @@ function inntopia_responsive_commerce_form($form, &$form_state, $settings) {
       break;
   }
   if(!empty($settings['packageid'])) {
-    $form['#action'] = 'https://' . variable_get('inntopia_hostname', 'www.inntopia.travel') . '/ecomm/shop/merchandise/' . $salesid . '/?packageid=' . $settings['packageid'];
+    $form['#action'] = 'https://' . variable_get('inntopia_hostname', 'www.inntopia.travel') . '/ecomm/package/package/' . $salesid . '/?packageid=' . $settings['packageid'];
   }
   if(!empty($settings['calltoaction'])) {
     $form['cta'] = array(
