@@ -14,6 +14,7 @@
     buttonText: 'Check Availability', //button text for all widget types
     domain: 'www.inntopia.travel', //update with your custom domain, if available
     language: 'en-US' //only en-US currently supported for this widget
+    forcechoice: <?php print $forcechoice ?: 'null'; ?> //only en-US currently supported for this widget
   };
 </script>
 <div id="inntopiaWidget"></div>

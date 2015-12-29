@@ -154,6 +154,26 @@ function _inntopia_widget_form_add_fields(&$element, $settings, $admin = FALSE, 
       );
     }
   }
+
+  if ($admin) {
+    $element['forcechoice'] = array(
+      '#title' => t('Force Choice'),
+      '#type' => 'checkbox',
+      '#default_value' => $settings['forcechoice'] ? : NULL,
+      '#description' => t('Add "1" to force Inntopia to show a hotel carousel vs a dropdown of rooms.')
+    );
+  }
+  else {
+    if (!empty($settings['forcechoice'])) {
+      $element['forcechoice'] = array(
+        '#type' => 'hidden',
+        '#value' => $settings['forcechoice']
+      );
+    }
+  }
+
+
+
   if ($admin) {
     $element['calltoaction'] = array(
       '#title' => t('Call to Action'),
@@ -347,8 +367,11 @@ function inntopia_theme($existing, $type, $theme, $path) {
     'startdate' => NULL,
     'language' => NULL,
     'productid' => NULL,
-    'promocode' => NULL
+    'promocode' => NULL,
+    'forcechoice'=> NULL
   );
+
+
   $items['inntopia_responsive_commerce_widget'] = array(
     'variables' => $widgetvars,
     'path' => "$path/theme",
